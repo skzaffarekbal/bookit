@@ -39,3 +39,11 @@ Online Hotel Booking Application next.js, redux.js and mongoDB
 # package 
 
 next-connect - Use to handel route and middleware in next project.
+
+mongoose - find({}) function issue facing mongoose version 6.0 So you just have to downgrade the mongoose version. Just run npm uninstall mongoose to uninstall the current mongoose version then run npm i mongoose@5.13.8, this will install the version that will fix your problem.
+
+```bash
+npm uninstall mongoose
+# and
+npm i mongoose@5.13.8
+```
