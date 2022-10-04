@@ -1,4 +1,5 @@
 import Room from "../models/room";
+import ErrorHandler from "../utils/errorHandel";
 
 // Get all rooms => /api/rooms
 const allRooms = async (req, res) => {
@@ -34,14 +35,16 @@ const newRoom = async (req, res) => {
 };
 
 // Get a room => /api/rooms/:id
-const getSingleRoom = async (req, res) => {
+const getSingleRoom = async (req, res, next) => {
   try {
     const room = await Room.findById(req.query.id);
     if (!room) {
-      return res.status(400).json({
-        success: false,
-        error: "Room Not Found.",
-      });
+      // return res.status(400).json({
+      //   success: false,
+      //   error: "Room Not Found.",
+      // });
+
+      return next(new ErrorHandler("Room Not Found.", 404));
     }
     res.status(200).json({
       success: true,
@@ -56,15 +59,17 @@ const getSingleRoom = async (req, res) => {
 };
 
 // Update a room detail => /api/rooms/:id
-const updateRoom = async (req, res) => {
+const updateRoom = async (req, res, next) => {
   try {
     let room = await Room.findById(req.query.id);
 
     if (!room) {
-      return res.status(400).json({
-        success: false,
-        error: "Room Not Found.",
-      });
+      // return res.status(404).json({
+      //   success: false,
+      //   error: "Room Not Found.",
+      // });
+
+      return next(new ErrorHandler("Room Not Found.", 404));
     }
 
     room = await Room.findByIdAndUpdate(req.query.id, req.body, {
@@ -86,15 +91,18 @@ const updateRoom = async (req, res) => {
 };
 
 // Delete a room detail => /api/rooms/:id
-const deleteRoom = async (req, res) => {
+const deleteRoom = async (req, res, next) => {
   try {
     let room = await Room.findById(req.query.id);
 
     if (!room) {
-      return res.status(400).json({
-        success: false,
-        error: "Room Not Found.",
-      });
+      // return res.status(404).json({
+      //   success: false,
+      //   error: "Room Not Found.",
+      // });
+
+      return next(new ErrorHandler("Room Not Found.", 404));
+      I;
     }
 
     await room.remove();
